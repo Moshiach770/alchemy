@@ -305,49 +305,19 @@ class ProposalContainer extends React.Component<IProps, IState> {
                       <img src="/assets/images/Icon/boost.svg"/>
                       <span> Boost</span>
                     </button>
-                    :
+                  : executable ?
                     <button className={css.executeProposal} onClick={this.handleClickExecute.bind(this)}>
                       <img src="/assets/images/Icon/execute.svg"/>
                       <span> Execute</span>
                     </button>
+                  : redeemable ?
+                    <RedeemButton handleClickRedeem={this.handleClickRedeem.bind(this)} {...redeemProps} />
+                  : " "
                   }
                 </div>
                 : " "
               }
             </div>
-
-            {proposalPassed(proposal) ?
-              <div className="css.clearfix">
-                <div className={css.proposalPassInfo}>
-                  <strong className={css.passedBy}>PASSED</strong> {passedByDecision ? "BY DECISION" : "BY TIMEOUT"} ON {closingTime(proposal).format("MMM DD, YYYY")}
-                </div>
-                <div className={css.decisionGraph}>
-                  <span className={css.forLabel}>{votesFor.toFixed(2).toLocaleString()} ({yesPercentage}%)</span>
-                  <div className={css.graph}>
-                    <div className={css.forBar} style={styles.forBar}></div>
-                    <div className={css.againstBar} style={styles.againstBar}></div>
-                    <div className={css.divider}></div>
-                  </div>
-                  <span className={css.againstLabel}>{votesAgainst.toFixed(2).toLocaleString()} ({noPercentage}%)</span>
-                </div>
-              </div>
-              : proposalFailed(proposal) ?
-                <div className="css.clearfix">
-                  <div className={css.proposalFailInfo}>
-                    <strong className={css.failedBy}>FAILED</strong> {failedByDecision ? "BY DECISION" : "BY TIMEOUT"} ON {closingTime(proposal).format("MMM DD, YYYY")}
-                  </div>
-                  <div className={css.decisionGraph}>
-                    <span className={css.forLabel}>{votesFor.toFixed(2).toLocaleString()} ({yesPercentage}%)</span>
-                    <div className={css.graph}>
-                      <div className={css.forBar} style={styles.forBar}></div>
-                      <div className={css.againstBar} style={styles.againstBar}></div>
-                      <div className={css.divider}></div>
-                    </div>
-                    <span className={css.againstLabel}>{votesAgainst.toFixed(2).toLocaleString()} ({noPercentage}%)</span>
-                  </div>
-                </div>
-                : ""
-            }
             <div className={css.createdBy}>
               <AccountPopupContainer accountAddress={proposal.proposer} dao={dao} detailView={detailView}/>
               <AccountProfileName accountProfile={creatorProfile} daoAvatarAddress={dao.address} detailView={detailView}/>
@@ -465,10 +435,6 @@ class ProposalContainer extends React.Component<IProps, IState> {
                     proposal={proposal}
                   /> : ""
                 }
-
-                <div className={css.proposalDetails + " " + css.concludedDecisionDetails}>
-                  <RedeemButton handleClickRedeem={this.handleClickRedeem.bind(this)} {...redeemProps} />
-                </div>
               </div>
               : ""
             }

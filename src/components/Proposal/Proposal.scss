@@ -956,6 +956,7 @@ button.disabled {
 	}
 }
 
+
 .stateChange {
 	float: left;
 	width: 50%;
@@ -971,11 +972,14 @@ button.disabled {
 		color: $white;
 		border: none;
 		transition: all .25s ease;
-	    margin: 10px 10px 5px 0px;
+	    margin: 0;
 	}
 
-	.executeProposal {
+	.executeProposal, .boostProposal {
 		display: inline-block;
+		position: absolute;
+		top: 15px;
+		right: 15px;
 	}
 
 	.executeProposal, .boostProposal {
@@ -1546,30 +1550,14 @@ a.viewProposal {
 	background-color: transparent;
 	padding: 5px 5px;
 	position: absolute;
-	right: -4px;
-	top: 26px;
-	transform: translateY(-50%);
+	top: 15px;
+	right: 15px;
 	cursor: pointer;
-	margin-top: -2px;
 	font-weight: bold;
+}
 
-	img {
-		display: none;
-	}
-
-	&.pending {
-		border: 1px solid $black-tenthtone;
-		color: $black-halftone;
-
-		img {
-			display: inline-block;
-			height: 16px;
-			position: relative;
-			top: 4px;
-			margin-left: 5px;
-			margin-top: -6px;
-		}
-	}
+.pending {
+	display: block;
 }
 
 .proposalsContainer .proposal {

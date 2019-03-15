@@ -656,6 +656,25 @@ a.navItem:hover {
   color: rgba(104, 155, 214, 1.000);
 }
 
+
+.redemptionsHeader {
+  font-size: 28px;
+  font-weight: bold;
+  color: rgba(104, 155, 214, 1.000);
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(191, 203, 213, 1.000);
+
+  span {
+    font-size: 13px;
+    font-weight: bold;
+    border-left: 1px solid rgba(191, 203, 213, 1.000);
+    display: inline-block;
+    margin-left: 15px;
+    padding-left: 15px;
+    color: rgba(104, 155, 214, 1.000);
+  }
+}
+
 .proposalsHeader {
   font-size: 16px;
   position: relative;
