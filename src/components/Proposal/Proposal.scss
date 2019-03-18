@@ -256,6 +256,7 @@ button.disabled {
 
 .detailView .voteStatus {
 	z-index: 1000;
+	padding-top: 0;
 }
 
 .historyView .voteStatus {
@@ -700,7 +701,7 @@ button.disabled {
     top: 13px;
     font-size: 12px;
     width: 83%;
-    margin-top: -3px;
+    margin-top: 6px;
     left: 50%;
     transform: translate(-50%,0);
 
@@ -750,6 +751,7 @@ button.disabled {
 	width: auto;
 	border-left: none;
 	float: none;
+	padding-top: none;
 	border-right: none;
 }
 
@@ -931,6 +933,7 @@ button.disabled {
 	float: left;
 	border-right: 1px solid rgba(215, 225, 237, 1.000);
 	width: 50%;
+	padding-top: 8px;
 }
 
 .voteBox.unconfirmedVote {
@@ -1279,7 +1282,7 @@ button.disabled {
 	display: block;
 	width: 100%;
     position: absolute;
-    top: 66px;
+    top: 70px;
     text-align: center;
 
 	button {
@@ -1355,6 +1358,7 @@ button.disabled {
 .voteStatus {
 	display: block;
 	width: 100%;
+	padding-top: 4px;
 }
 
 .predictions {
@@ -1731,6 +1735,7 @@ button.cancelPrediction {
 	position: relative;
 	width: 85%;
 	margin-left: 28px;
+	margin-top: 0;
 
 	.disabledPredictions {
 		display: block;
@@ -1782,6 +1787,7 @@ button.cancelPrediction {
 
 .historyView .stakes {
 	top: 15px;
+	margin-top: 0;
 
 	.stakesAgainst, .stakesFor {
 		color: rgba(154, 169, 181, 1.000);
