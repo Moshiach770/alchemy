@@ -48,8 +48,18 @@ class DaoRedemptionsContainer extends React.Component<IProps, null> {
     rewards.forEach((reward) => {
     //   ethReward += Util.fromWei(reward.amount);
     //   externalTokenReward += Util.fromWei(reward.amount);
-      genReward.iadd(reward.tokensForStaker).iadd(reward.daoBountyForStaker);
-      reputationReward.iadd(reward.reputationForVoter).iadd(reward.reputationForProposer);
+      if (reward.tokensForStaker) {
+        genReward.iadd(new BN(reward.tokensForStaker));
+      }
+      if (reward.daoBountyForStaker) {
+        genReward.iadd(new BN(reward.daoBountyForStaker));
+      }
+      if (reward.reputationForVoter) {
+        reputationReward.iadd(new BN(reward.reputationForVoter));
+        }
+      if (reward.reputationForProposer) {
+        reputationReward.iadd(new BN(reward.reputationForProposer));
+      }
     });
 
     const totalRewards = [];
