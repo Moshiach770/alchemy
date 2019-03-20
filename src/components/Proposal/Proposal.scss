@@ -753,7 +753,7 @@ button.disabled {
 
 	.forBar, .againstBar {
 		height: 18px;
-		width: 55px;
+		width: 46%;
 		position: relative;
 
 		b {
@@ -1811,6 +1811,7 @@ button.cancelPrediction {
 	.forBar, .againstBar {
 		position: absolute;
 		top: 0;
+		width: 88%;
 
 		b {
 			color: rgba(154, 169, 181, 1.000);
