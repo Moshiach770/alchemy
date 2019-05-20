@@ -1,4 +1,4 @@
-import { Address, Arc } from "@daostack/client";
+import { Address, Arc, getContractAddresses } from "@daostack/client";
 import { waitUntilTrue} from "lib/util";
 import { NotificationStatus } from "reducers/notifications";
 import { Observable } from "rxjs";
@@ -9,8 +9,8 @@ const settings = {
     graphqlHttpProvider: "http://127.0.0.1:8000/subgraphs/name/daostack",
     graphqlWsProvider: "ws://127.0.0.1:8001/subgraphs/name/daostack",
     web3Provider: "ws://127.0.0.1:8545",
-    ipfsProvider: "localhost",
-    contractAddresses: getContractAddresses("private")
+    ipfsProvider: "localhost"
+    // contractAddresses: getContractAddresses("private")
   },
   staging: {
     graphqlHttpProvider: "https://rinkeby.subgraph.daostack.io/subgraphs/name/v17",
@@ -21,8 +21,8 @@ const settings = {
       "port": "443",
       "protocol": "https",
       "api-path": "/ipfs/api/v0/"
-    },
-    contractAddresses: getContractAddresses("rinkeby")
+    }
+    // contractAddresses: getContractAddresses("rinkeby")
   },
   production: {
     graphqlHttpProvider: "https://subgraph.daostack.io/subgraphs/name/v17",
@@ -33,14 +33,13 @@ const settings = {
       "port": "443",
       "protocol": "https",
       "api-path": "/ipfs/api/v0/"
-    },
-    contractAddresses: getContractAddresses("mainnet")
+    }
+    // contractAddresses: getContractAddresses("mainnet")
   }
 };
 
 /**
  * get the contract address from the @daostack/migration repository.
- * These may be out of date: consider using getContractAddressesFromSubgraph instead
  * @param  key the network where the contracts are deployed: one of private, rinkeby, mainnet
  * @return   an Array mapping contract names to addresses
  */
@@ -180,7 +179,7 @@ function getArcSettings(): any {
 
 export function getArc(): Arc {
   // store the Arc instance in the global namespace on the 'window' object
-  // (this is not best practice)
+  // (this is not best practicec
   const arc = (<any> window).arc;
   if (!arc) {
     throw Error("window.arc is not defined - please call initializeArc first");
@@ -190,6 +189,13 @@ export function getArc(): Arc {
 
 export async function initializeArc(): Promise<Arc> {
   const arcSettings = getArcSettings();
+  const match = arcSettings.graphqlHttpProvider.match("(?<url>(?<baseUrl>.*)/name/(?<subgraphName>.*)/)");
+  if (!match.groups.subgraphName) {
+    throw Error(`Could not parse this URL: ${arcSettings.graphqlHttpProvider} - expected something of the form https://some.url/subgraphs/subgraphName/graphql`);
+  }
+  const contractAddresses = await getContractAddresses(metaUrl, match.groups.subgraphName);
+  arcSettings.contractAddresses = contractAddresses;
+  const metaUrl = `${match.groups.baseUrl}/graphql`;
   const metamask = getMetaMask();
   if (metamask) {
     console.log("waiting for MetaMask to initialize");
@@ -217,7 +223,7 @@ export async function initializeArc(): Promise<Arc> {
 
   const arc: Arc = new Arc(arcSettings);
   // save the object on a global window object (I know, not nice, but it works..)
-  (<any> window).arc = arc;
+  (<arlny> window).arc = arc;
   return arc;
 }
 
