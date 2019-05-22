@@ -2,9 +2,8 @@
 import { Address } from "@daostack/client";
 import * as Sentry from "@sentry/browser";
 import * as web3Actions from "actions/web3Actions";
-import { checkMetaMask, getCurrentAccountAddress, initializeArc, pollForAccountChanges } from "arc";
+import { checkMetaMask, getCurrentAccountAddress, pollForAccountChanges } from "arc";
 import AccountProfileContainer from "components/Account/AccountProfileContainer";
-import CreateProposalContainer from "components/CreateProposal/CreateProposalContainer";
 import DaoListContainer from "components/DaoList/DaoListContainer";
 import HomeContainer from "components/Home/HomeContainer";
 import MinimizedNotifications from "components/Notification/MinimizedNotifications";
@@ -55,7 +54,7 @@ interface IState {
   error: string;
   sentryEventId: string;
   notificationsMinimized: boolean;
-  arcIsInitialized: boolean;
+  // arcIsInitialized: boolean;
 }
 
 class AppContainer extends React.Component<IProps, IState> {
@@ -66,7 +65,7 @@ class AppContainer extends React.Component<IProps, IState> {
       error: null,
       sentryEventId: null,
       notificationsMinimized: false,
-      arcIsInitialized: false
+      // arcIsInitialized: false
     };
   }
 
@@ -79,14 +78,16 @@ class AppContainer extends React.Component<IProps, IState> {
       this.setState({ sentryEventId });
     });
   }
+
   public async componentWillMount() {
     // we initialize Arc
-    initializeArc()
-      .then(async () => {
+    // const initializeArc = async () => {};
+    // initializeArc();
+      // .then(async () => {
         // if Metamask is available, we wathc for any account changes
-        let metamask: any;
-        const currentAddress = await getCurrentAccountAddress();
-        if (currentAddress)  {
+    let metamask: any;
+    const currentAddress = await getCurrentAccountAddress();
+    if (currentAddress)  {
           console.log(`using address from web3 connection: ${currentAddress}`);
           this.props.cookies.set("currentAddress", currentAddress, { path: "/"});
           this.props.setCurrentAccount(currentAddress);
@@ -101,15 +102,15 @@ class AppContainer extends React.Component<IProps, IState> {
           }
         }
 
-        this.setState({ arcIsInitialized: true });
+        // this.setState({ arcIsInitialized: true });
 
-        try {
+    try {
           metamask = checkMetaMask();
         } catch (err) {
           // pass
         }
 
-        if (metamask) {
+    if (metamask) {
           pollForAccountChanges(currentAddress).subscribe(
             (newAddress: Address) => {
               if (newAddress && checkMetaMask()) {
@@ -122,11 +123,11 @@ class AppContainer extends React.Component<IProps, IState> {
               }
             });
           }
-        }
-      )
-    .catch((err) => {
-      console.log(err.message);
-    });
+    //     }
+    //   )
+    // .catch((err) => {
+    //   console.log(err.message);
+    // });
   }
 
   public render() {
@@ -137,13 +138,13 @@ class AppContainer extends React.Component<IProps, IState> {
       sortedNotifications,
     } = this.props;
 
-    if (!this.state.arcIsInitialized) {
-      return <div className={css.loading}><img src="/assets/images/Icon/Loading-black.svg" /></div>;
-    } else if (this.state.error) {
+    if (this.state.error) {
       // Render error fallback UI
-      return (
+      // TODO: style this!
+      return <div>
         <a onClick={() => Sentry.showReportDialog({ eventId: this.state.sentryEventId })}>Report feedback</a>
-      );
+        <pre>{ this.state.error }</pre>
+      </div>;
     } else {
       return (
         <div className={css.outer}>
@@ -158,11 +159,7 @@ class AppContainer extends React.Component<IProps, IState> {
                 <Route path="/profile/:accountAddress" component={AccountProfileContainer} />
                 <Route path="/" component={HomeContainer} />
               </Switch>
-              <ModalRoute
-                path="/dao/:daoAvatarAddress/proposals/create"
-                parentPath={(route: any) => `/dao/${route.params.daoAvatarAddress}`}
-                component={CreateProposalContainer}
-              />
+
               <ModalContainer
                 modalClassName={css.modal}
                 backdropClassName={css.backdrop}
