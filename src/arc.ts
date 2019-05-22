@@ -9,7 +9,7 @@ const settings = {
     graphqlHttpProvider: "http://127.0.0.1:8000/subgraphs/name/daostack",
     graphqlWsProvider: "ws://127.0.0.1:8001/subgraphs/name/daostack",
     web3Provider: "ws://127.0.0.1:8545",
-    ipfsProvider: "localhost"
+    ipfsProvider: "localhost",
     // contractAddresses: getContractAddresses("private")
   },
   staging: {
@@ -194,7 +194,10 @@ export function getArc(): Arc {
 
 export async function initializeArc(): Promise<Arc> {
   const arcSettings = getArcSettings();
-  const match = arcSettings.graphqlHttpProvider.match("(?<url>(?<baseUrl>.*)/name/(?<subgraphName>.*)/)");
+  const match = arcSettings.graphqlHttpProvider.match(/(?<baseUrl>.*)\/name\/(?<subgraphName>.*)/);
+  if (!match) {
+    throw Error(`Could not find the graphql base Url: are you use ${arcSettings.graphqlHttpProvider} is set correctly?`);
+  }
   if (!match.groups.subgraphName) {
     throw Error(`Could not parse this URL: ${arcSettings.graphqlHttpProvider} - expected something of the form https://some.url/subgraphs/subgraphName/graphql`);
   }
