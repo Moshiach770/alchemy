@@ -38,22 +38,22 @@ const settings = {
   }
 };
 
-/**
- * get the contract address from the @daostack/migration repository.
- * @param  key the network where the contracts are deployed: one of private, rinkeby, mainnet
- * @return   an Array mapping contract names to addresses
- */
-export function getContractAddresses(key: "private"|"rinkeby"|"mainnet") {
-  const deployedContractAddresses = require("@daostack/migration/migration.json");
-
-  const addresses = {
-      ...deployedContractAddresses[key]
-   };
-  if (!addresses || addresses === {}) {
-    throw Error(`No addresses found, does the file at "@daostack/migration/migration.json" exist?`);
-  }
-  return addresses.base;
-}
+// /**
+//  * get the contract address from the @daostack/migration repository.
+//  * @param  key the network where the contracts are deployed: one of private, rinkeby, mainnet
+//  * @return   an Array mapping contract names to addresses
+//  */
+// export function getContractAddresses(key: "private"|"rinkeby"|"mainnet") {
+//   const deployedContractAddresses = require("@daostack/migration/migration.json");
+//
+//   const addresses = {
+//       ...deployedContractAddresses[key]
+//    };
+//   if (!addresses || addresses === {}) {
+//     throw Error(`No addresses found, does the file at "@daostack/migration/migration.json" exist?`);
+//   }
+//   return addresses.base;
+// }
 
 /**
  * check if the web3 connection is ready to send transactions, and warn the user if it is not
@@ -193,9 +193,9 @@ export async function initializeArc(): Promise<Arc> {
   if (!match.groups.subgraphName) {
     throw Error(`Could not parse this URL: ${arcSettings.graphqlHttpProvider} - expected something of the form https://some.url/subgraphs/subgraphName/graphql`);
   }
+  const metaUrl = `${match.groups.baseUrl}/graphql`;
   const contractAddresses = await getContractAddresses(metaUrl, match.groups.subgraphName);
   arcSettings.contractAddresses = contractAddresses;
-  const metaUrl = `${match.groups.baseUrl}/graphql`;
   const metamask = getMetaMask();
   if (metamask) {
     console.log("waiting for MetaMask to initialize");
@@ -230,7 +230,7 @@ export async function initializeArc(): Promise<Arc> {
 
   const arc: Arc = new Arc(arcSettings);
   // save the object on a global window object (I know, not nice, but it works..)
-  (<arlny> window).arc = arc;
+  (<any> window).arc = arc;
   return arc;
 }
 
