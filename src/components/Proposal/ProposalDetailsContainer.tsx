@@ -244,7 +244,9 @@ class ProposalDetailsContainer extends React.Component<IProps, IState> {
         </div>
 
         <h3 className={css.discussionTitle}>Discussion</h3>
-        <DiscussionEmbed shortname={process.env.DISQUS_SITE} config={disqusConfig} />
+        <div className={css.disqus}>
+          <DiscussionEmbed shortname={process.env.DISQUS_SITE} config={disqusConfig}/>
+        </div>
       </div>
     );
   }
