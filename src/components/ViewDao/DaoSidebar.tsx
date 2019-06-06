@@ -1,6 +1,7 @@
 import { IDAOState } from "@daostack/client";
 import { getArc } from "arc";
 import BN = require("bn.js");
+import * as classNames from "classnames";
 import Subscribe, { IObservableState } from "components/Shared/Subscribe";
 import * as GeoPattern from "geopattern";
 import { formatTokens } from "lib/util";
@@ -13,7 +14,22 @@ interface IProps {
   dao: IDAOState;
 }
 
-class DaoSidebarComponent extends React.Component<IProps, null> {
+interface IState {
+  openMenu: boolean;
+}
+
+class DaoSidebarComponent extends React.Component<IProps, IState> {
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      openMenu: false
+    };
+  }
+
+  public handleOpenMenu(event: any) {
+    this.setState({ openMenu: !this.state.openMenu });
+  }
 
   public render() {
     const dao = this.props.dao;
@@ -24,9 +40,15 @@ class DaoSidebarComponent extends React.Component<IProps, null> {
 
     const bgPattern = GeoPattern.generate(dao.address + dao.name);
 
+    const menuClass = classNames({
+      [css.openMenu]: this.state.openMenu,
+      [css.daoSidebar]: true,
+      "clearfix": true
+    });
+
     return (
-      <div className={css.daoSidebar + " clearfix"}>
-        <div className={css.menuToggle}>
+      <div className={menuClass}>
+        <div className={css.menuToggle} onClick={this.handleOpenMenu.bind(this)}>
           <img className={css.menuClosed} src="/assets/images/Icon/Menu.svg"/>
           <img className={css.menuOpen} src="/assets/images/Icon/Close.svg"/>
         </div>

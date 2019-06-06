@@ -85,5 +85,6 @@ export const bg: string;
 export const tourStart: string;
 export const tourEnd: string;
 export const startButton: string;
+export const openMenu: string;
 export const menuClosed: string;
 export const menuOpen: string;
