@@ -60,12 +60,13 @@ class DaoMembersContainer extends React.Component<IProps, null> {
                     }
                     <br/>
                   </div>
-                  : ""
+                  : <div className={css.noProfile}>No Profile</div>
                 }
-                <div>{memberState.address}</div>
+                <div className={css.address}>{memberState.address}</div>
               </div>
-              <ReputationView daoName={dao.name} totalReputation={dao.reputationTotalSupply} reputation={memberState.reputation}/>
-
+              <div className={css.reputationAmounts}>
+                <ReputationView daoName={dao.name} totalReputation={dao.reputationTotalSupply} reputation={memberState.reputation}/>
+              </div>
             </div>
           );
         } else {
