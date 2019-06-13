@@ -43,7 +43,7 @@ class DaoSidebarComponent extends React.Component<IProps, IState> {
     const menuClass = classNames({
       [css.openMenu]: this.state.openMenu,
       [css.daoSidebar]: true,
-      "clearfix": true
+      clearfix: true
     });
 
     return (
